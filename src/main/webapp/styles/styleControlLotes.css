@@ -1,0 +1,152 @@
+
+.scrollable-tbody-v {
+    --bs-table-accent-bg: rgb(240, 14, 14, 0.70);
+}
+
+.scrollable-tbody-1m {
+    --bs-table-accent-bg: rgb(255, 192, 0, 0.70);
+}
+
+.scrollable-tbody-3m {
+    --bs-table-accent-bg: rgb(255, 255, 0, 0.70);
+}
+
+.scrollable-tbody-6m {
+    --bs-table-accent-bg: rgb(71, 211, 89, 0.70);
+}
+
+
+.scrollable-tbody-6m {
+    --bs-table-accent-bg: rgb(71, 211, 89, 0.70);
+}
+
+
+.cerrar-sesion-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cerrar-sesion-btn:hover {
+    background-color: #d32f2f;
+}
+
+
+.buscar-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.buscar-btn:hover {
+    background-color: #45a049;
+}
+
+.cerrar-sesion-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.cerrar-sesion-btn:hover {
+    background-color: #d32f2f;
+}
+
+#cerrar-sesion-div {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.my-custom-scrollbar {
+    position: relative;
+    height: 900px;
+    overflow: auto;
+}
+
+
+.exportar-btn {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.exportar-btn:hover {
+    background-color: #45a049;
+}
+
+
+
+/* Aplicar estilos flexibles para las tablas */
+.table-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Ajustar el ancho de cada tabla para cubrir el ancho de la pantalla */
+.table-wrapper-scroll-y {
+    white-space: nowrap;
+    overflow-x: auto;
+}
+
+/* Asegurar que las tablas tengan un ancho uniforme */
+.table {
+    width: calc(12% - 15px); /* Ajustar según sea necesario y tener en cuenta el margen */
+    margin-right: 10px; /* Ajustar según sea necesario */
+}
+.table-title {
+    font-size: 50px;
+    margin-bottom: 10px;
+    color: #333; /* Color del texto según tus preferencias */
+    text-align: center;
+    line-height: normal;
+}
+
+
+.ajustar-columna {
+    width: 200px; /* Ancho específico que deseas */
+    white-space: nowrap; /* Para truncar el texto si es más largo que el ancho */
+    overflow: hidden; /* Oculta el texto que excede el ancho */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos (...) al final del texto truncado */
+}
+
+
+/* Custom styles for responsiveness */
+@media (max-width: 768px) {
+    /* Example: Adjust styles for smaller screens */
+    .container {
+        padding: 10px;
+    }
+}
+
+
+
+/* Estilos personalizados para el asterisco */
+.label-rojo::after {
+    content: '*';
+    color: red;
+}
+
