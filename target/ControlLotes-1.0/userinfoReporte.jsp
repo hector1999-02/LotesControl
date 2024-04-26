@@ -1,7 +1,7 @@
 <%@ page import="java.sql.Connection, java.sql.DriverManager, java.sql.PreparedStatement, java.sql.ResultSet" %>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@ page import="conexionSQL.ConexionSQLServer"%>
-<% // Valida que la variable userId y tipoUsuario no sean nulas
+<% // Valida que la variable userId y tipoUsuario no sean nulas para el usuario Normal
 if (session.getAttribute("userId") == null || session.getAttribute("tipoUsuario") == null) {
     request.getRequestDispatcher("index.jsp").forward(request, response);
 } else {

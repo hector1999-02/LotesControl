@@ -92,6 +92,9 @@ public class AgregarLoteServlet extends HttpServlet {
         String descripcion = request.getParameter("descripcion");
         String reg_san = request.getParameter("reg_san");
         String devolutivo = request.getParameter("devolutivo");
+        //AGREGAR LA FECHA DE REGISTRO
+        String fecha_reg = request.getParameter("fechaRegistro");
+        
         
         
         
@@ -112,7 +115,7 @@ public class AgregarLoteServlet extends HttpServlet {
             try ( // Establece la conexión a la base de datos (ajusta la URL, usuario y contraseña)
                     Connection conn = ConexionSQLServer.getConnection()) {
                 // Prepara la sentencia SQL para la inserción
-                String sql = "INSERT INTO TBL_COSAVAL_ARTICULOSPORLOTES (itemId, lote, fecha_Caducidad, observacion, cantidad , precio_etiquetado, id_vend, reg_san, devolutivo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO TBL_COSAVAL_ARTICULOSPORLOTES (itemId, lote, fecha_Caducidad, observacion, cantidad , precio_etiquetado, id_vend, reg_san, devolutivo, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
                     // Establece los parámetros en la sentencia SQL
                     pstmt.setString(1, itemId);
@@ -125,6 +128,7 @@ public class AgregarLoteServlet extends HttpServlet {
                     pstmt.setString(7, id_vend);
                     pstmt.setString(8, reg_san);
                     pstmt.setString(9, devolutivo);
+                    pstmt.setString(10, fecha_reg);
 
                     // Ejecuta la inserción
                     pstmt.executeUpdate();

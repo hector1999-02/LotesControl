@@ -7,11 +7,15 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@ page import="java.sql.SQLException" %>
 
-<%
-    // Validating user session
-    if(session.getAttribute("userId") == null){
+<% // Valida que la variable userId y tipoUsuario no sean nulas para el usuario Normal
+if (session.getAttribute("userId") == null || session.getAttribute("tipoUsuario") == null) {
+    request.getRequestDispatcher("index.jsp").forward(request, response);
+} else {
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    if (!"normal".equals(tipoUsuario)) { // Comparación de cadenas utilizando equals
         request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
+    } 
+    }    // Usuario es admin, continuar con el código para admin
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

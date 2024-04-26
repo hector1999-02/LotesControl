@@ -81,11 +81,6 @@ public class EliminarProductoServlet extends HttpServlet {
         // Obtener los parámetros del formulario
         String itemId = request.getParameter("itemId");
         String descripcion = request.getParameter("descripcion");
-        String id_lab = request.getParameter("id_lab");
-        String id_vend = request.getParameter("id_vend");
-        String cantidad = request.getParameter("cantidad");
-        String precio_etiquetado = request.getParameter("precio_etiquetado");
-        String observacion = request.getParameter("observacion");
         String lote = request.getParameter("lote");
         String fechaCaducidad = request.getParameter("fechaCaducidad");
 
@@ -95,12 +90,13 @@ public class EliminarProductoServlet extends HttpServlet {
             // Establecer la conexión a la base de datos y preparar la consulta SQL
             PreparedStatement pst = null;
             Connection conn = ConexionSQLServer.getConnection();
-            String query = "DELETE TBL_COSAVAL_ARTICULOSPORLOTES WHERE itemId=? AND lote = ?";
+            String query = "DELETE TBL_COSAVAL_ARTICULOSPORLOTES WHERE itemId=? AND lote = ? AND fecha_caducidad = ?";
             pst = conn.prepareStatement(query);
-
+            
             // Establecer los valores en la consulta preparada
             pst.setString(1, itemId);
             pst.setString(2, lote);
+            pst.setString(3, fechaCaducidad);
 
             // Ejecutar la consulta
             pst.executeUpdate();

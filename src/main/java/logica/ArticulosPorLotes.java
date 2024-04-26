@@ -16,9 +16,13 @@ public class ArticulosPorLotes {
     private String laboratorio;
     private String registro_sanitario;
     private String devolutivo;
+    private Date fechaRegistro;
 
-    public ArticulosPorLotes(String itemId, String Descripcion, Date fechaCaducidad, String lote, String observacion, int cantidad, double precio_etiquetado, String vendedor, String laboratorio) {
+  
+
+    public ArticulosPorLotes(String itemId, String sap, String Descripcion, Date fechaCaducidad, String lote, String observacion, int cantidad, double precio_etiquetado, String vendedor, String laboratorio, String registro_sanitario, String devolutivo, Date fechaRegistro) {
         this.itemId = itemId;
+        this.sap = sap;
         this.Descripcion = Descripcion;
         this.fechaCaducidad = fechaCaducidad;
         this.lote = lote;
@@ -27,6 +31,9 @@ public class ArticulosPorLotes {
         this.precio_etiquetado = precio_etiquetado;
         this.vendedor = vendedor;
         this.laboratorio = laboratorio;
+        this.registro_sanitario = registro_sanitario;
+        this.devolutivo = devolutivo;
+        this.fechaRegistro = fechaRegistro;
     }
 
     public String getRegistro_sanitario() {
@@ -132,4 +139,15 @@ public class ArticulosPorLotes {
         this.laboratorio = laboratorio;
     }
 
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    
+    
+    
 }

@@ -8,11 +8,15 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@ page import="java.sql.SQLException" %>
 
-<%
-    // Validating user session
-    if(session.getAttribute("userId") == null){
+<% // Valida que la variable userId y tipoUsuario no sean nulas para el usuario admin
+if (session.getAttribute("userId") == null || session.getAttribute("tipoUsuario") == null) {
+    request.getRequestDispatcher("index.jsp").forward(request, response);
+} else {
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    if (!"admin".equals(tipoUsuario)) { // Comparación de cadenas utilizando equals
         request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
+    } 
+    }    // Usuario es admin, continuar con el código para admin
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -251,6 +255,26 @@
                                                 <label for="reg_san" class="label-rojo">Reg_SAN</label>
                                                 <input type="text" id="reg_san" name="reg_san" class="form-control" placeholder="Ingrese Registro Sanitario" pattern="[a-zA-Z0-9]{1,15}" title="Ingrese letras y números, máximo 15 caracteres" required>
                                             </div>
+
+                                            <div class="form-group">
+                                                <input type="hidden" id="fechaRegistro" name="fechaRegistro" class="form-control" required>
+                                            </div>
+
+                                            <script>
+                                                // Obtener la fecha actual
+                                                var fechaActual = new Date();
+
+                                                // Restar un día a la fecha actual
+                                                fechaActual.setDate(fechaActual.getDate() - 1);
+
+                                                // Asignar la fecha actual al campo oculto
+                                                // Obtener la fecha en formato YYYY-MM-DD
+                                                var fechaFormatoISO = fechaActual.toISOString().split('T')[0];
+
+                                                // Asignar la fecha al campo oculto
+                                                document.getElementById('fechaRegistro').value = fechaFormatoISO;
+                                            </script>
+
 
 
 

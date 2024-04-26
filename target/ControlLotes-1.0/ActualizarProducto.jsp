@@ -7,11 +7,15 @@
 <%@ page import="conexionSQL.ConexionSQLServer"%>
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@ page import="java.sql.SQLException" %>
-<%
-    // Validating user session
-    if(session.getAttribute("userId") == null){
+<% // Valida que la variable userId y tipoUsuario no sean nulas para el usuario admin
+if (session.getAttribute("userId") == null || session.getAttribute("tipoUsuario") == null) {
+    request.getRequestDispatcher("index.jsp").forward(request, response);
+} else {
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    if (!"admin".equals(tipoUsuario)) { // Comparación de cadenas utilizando equals
         request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
+    } 
+    }    // Usuario es admin, continuar con el código para admin
 %>
 
 
@@ -93,6 +97,7 @@
                                     <input type="hidden" name="itemId" value="<%= producto.getItemId()%>">
                                     <input type="hidden" name="descripcion" value="<%= producto.getDescripcion()%>">
                                     <input type="hidden" name="lote_ant" value="<%= producto.getLote()%>">
+                                    <input type="hidden" name="fechaCaducidad" value="<%= producto.getFechaCaducidad()%>">
 
 
                                     <!--                                    Select de Proveedores-->
@@ -234,8 +239,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="fechaCaducidad" class="label-rojo">Fecha de Caducidad</label>
-                                        <input type="date" id="fechaCaducidadActualizable" name="fechaCaducidad" value="<%= producto.getFechaCaducidad()%>" class="form-control" required>
+                                        <label for="fechaCaducidadActualizable" class="label-rojo">Fecha de Caducidad</label>
+                                        <input type="date" id="fechaCaducidadActualizable" name="fechaCaducidadActualizable" value="<%= producto.getFechaCaducidad()%>" class="form-control" required>
                                     </div>
 
 
@@ -259,8 +264,10 @@
                                         <input type="text" id="reg_san" name="reg_san" class="form-control" value="<%= producto.getRegistro_sanitario()%>" placeholder="Ingrese Registro Sanitario" pattern="[a-zA-Z0-9]{1,15}" title="Ingrese letras y números, máximo 15 caracteres" required>
                                     </div>
 
-
-
+                                    <div class="form-group">
+                                        <label for="fechaRegistro" class="label-rojo">Fecha de Registro</label>
+                                        <input type="date" id="fechaRegistro" name="fechaRegistro" value="<%= producto.getFechaRegistro()%>" class="form-control" required>
+                                    </div>
 
 
                                     <div class="mb-4">

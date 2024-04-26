@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Confirmación</title>
         <style>
             /* Estilos del cuadro modal */
             .modal {
@@ -44,7 +44,7 @@
         %>
         <!-- Muestra el cuadro modal al cargar la página -->
         <div id="myModal" class="modal" >
-            <form action="ControlLotesServlet" method="GET">
+            <form action="ControlLotesServlet" method="POST">
                 <div class="modal-content">
                     <p><%= mensaje %></p>
                     <button class="modal-button" type="submit">Ver Control de Inventario</button>

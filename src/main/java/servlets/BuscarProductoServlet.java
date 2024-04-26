@@ -74,11 +74,12 @@ public class BuscarProductoServlet extends HttpServlet {
         String lote = request.getParameter("lote");
         String nombreProv = request.getParameter("nombreProv");
         String nombreLab = request.getParameter("nameLab");
+        String fechaCaducidad = request.getParameter("fechaCaducidad");
 
         List<Laboratorios> labs = Lab.obtenerLaboratorios(nombreLab);
         List<Proveedores> provs = prov.obtenerProveedores(nombreProv);
         
-        List<ArticulosPorLotes> art_por_lotes = Art_lotes.obtenerProductoParaModificacion(itemID, lote);
+        List<ArticulosPorLotes> art_por_lotes = Art_lotes.obtenerProductoParaModificacion(itemID, lote, fechaCaducidad);
         
         request.setAttribute("labs", labs);
         request.setAttribute("provs", provs);

@@ -19,7 +19,7 @@ public class ArticulosPorLotesDAO {
 
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro"
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
@@ -47,6 +47,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }
@@ -79,7 +80,7 @@ public class ArticulosPorLotesDAO {
             // Obtener todos los registros de todas las farmacias
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro"
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
@@ -107,6 +108,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }
@@ -139,7 +141,7 @@ public class ArticulosPorLotesDAO {
             // Obtener todos los registros de todas las farmacias
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro"
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
@@ -167,6 +169,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }
@@ -199,7 +202,7 @@ public class ArticulosPorLotesDAO {
             // Obtener todos los registros de todas las farmacias
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro"
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
@@ -227,6 +230,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }
@@ -259,7 +263,7 @@ public class ArticulosPorLotesDAO {
             // Obtener todos los registros de todas las farmacias
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro"
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
@@ -287,6 +291,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }
@@ -311,7 +316,7 @@ public class ArticulosPorLotesDAO {
 
     }
 
-    public List<ArticulosPorLotes> obtenerProductoParaModificacion(String itemId, String lote) {
+    public List<ArticulosPorLotes> obtenerProductoParaModificacion(String itemId, String lote, String fecha) {
 
         List<ArticulosPorLotes> arts = new ArrayList<>();
         //Traer todos los registros de la vista
@@ -319,18 +324,19 @@ public class ArticulosPorLotesDAO {
             // Obtener todos los registros de todas las farmacias
             String sql = "SELECT ret.itemid as itemid, ret.SEARCHKEYWORDS AS sap, art_lotes.FECHA_CADUCIDAD AS fecha_caducidad, lote, ret.EXTENDEDDESCRIPTION AS descripcion, "
                     + " observacion, cantidad, precio_etiquetado, VT.name AS proveedor, art_lotes.reg_san registro, art_lotes.devolutivo as devolutivo, "
-                    + " LT.name AS laboratorio "
+                    + " LT.name AS laboratorio, art_lotes.fecha_registro AS fecha_registro "
                     + " FROM TBL_COSAVAL_ARTICULOSPORLOTES art_lotes "
                     + " INNER JOIN RETAILITEM ret ON art_lotes.ITEMID = ret.ITEMID "
                     + " INNER JOIN VENDTABLE VT ON art_lotes.id_vend = vt.ACCOUNTNUM "
                     + " INNER JOIN RETAILLABORATORIOS RL ON RL.ITEMID = ret.ITEMID "
                     + " INNER JOIN LABTABLE LT ON RL.FABRICANTE = LT.ACCOUNTNUM "
-                    + "WHERE RET.itemId = ? AND art_lotes.lote = ? ";
+                    + "WHERE RET.itemId = ? AND art_lotes.lote = ? AND art_lotes.fecha_caducidad = ?";
 
             Connection conn = ConexionSQLServer.getConnection();
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, itemId);
             stmt.setString(2, lote);
+            stmt.setString(3, fecha);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -349,6 +355,7 @@ public class ArticulosPorLotesDAO {
                 art.setLaboratorio(rs.getString("laboratorio"));
                 art.setRegistro_sanitario(rs.getString("registro"));
                 art.setDevolutivo(rs.getString("devolutivo"));
+                art.setFechaRegistro(rs.getDate("fecha_registro"));
 
                 arts.add(art);
             }

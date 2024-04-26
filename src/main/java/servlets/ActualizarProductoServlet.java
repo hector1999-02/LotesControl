@@ -79,14 +79,16 @@ public class ActualizarProductoServlet extends HttpServlet {
         String lote_ant = request.getParameter("lote_ant");
         String reg_san = request.getParameter("reg_san");
         String devolutivo = request.getParameter("devolutivo");
-
+        String fechaRegistro = request.getParameter("fechaRegistro");
+        String fechaCaducidadNuevo = request.getParameter("fechaCaducidadActualizable");
+//ojoooooooooooooooooooooooooooooooooo ver la parte de fecha anterior para no confundir con la fecha de caducidad actual para hacer el filtro
         // Ejecutar la lógica para actualizar los datos en la base de datos
         try {
 
             // Establecer la conexión a la base de datos y preparar la consulta SQL
             PreparedStatement pst = null;
             Connection conn = ConexionSQLServer.getConnection();
-            String query = "UPDATE TBL_COSAVAL_ARTICULOSPORLOTES SET id_vend=?, cantidad=?, precio_etiquetado=?, observacion=?, lote=?, fecha_Caducidad=?, reg_san=?, devolutivo=? WHERE itemId=? AND lote = ?";
+            String query = "UPDATE TBL_COSAVAL_ARTICULOSPORLOTES SET id_vend=?, cantidad=?, precio_etiquetado=?, observacion=?, lote=?, fecha_Caducidad=?, reg_san=?, devolutivo=?, fecha_registro=? WHERE itemId=? AND lote = ? AND fecha_caducidad = ?";
             pst = conn.prepareStatement(query);
 
             // Establecer los valores en la consulta preparada
@@ -96,11 +98,13 @@ public class ActualizarProductoServlet extends HttpServlet {
             pst.setString(3, precio_etiquetado);
             pst.setString(4, observacion);
             pst.setString(5, lote_nuevo);
-            pst.setString(6, fechaCaducidad);
+            pst.setString(6, fechaCaducidadNuevo);
             pst.setString(7, reg_san); //se agrega registro sanitario, ver en el actualizable
             pst.setString(8, devolutivo); //se agrega devolutivo, ver en el actualizable
-            pst.setString(9, itemId);
-            pst.setString(10, lote_ant);
+            pst.setString(9, fechaRegistro); //se agrega devolutivo, ver en el actualizable
+            pst.setString(10, itemId);
+            pst.setString(11, lote_ant);
+            pst.setString(12, fechaCaducidad);
 
             // Ejecutar la consulta
             pst.executeUpdate();

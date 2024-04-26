@@ -7,11 +7,15 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 <%@ page import="java.sql.SQLException" %>
 
-<%
-    // Validating user session
-    if(session.getAttribute("userId") == null){
+<% // Valida que la variable userId y tipoUsuario no sean nulas para el usuario admin
+if (session.getAttribute("userId") == null || session.getAttribute("tipoUsuario") == null) {
+    request.getRequestDispatcher("index.jsp").forward(request, response);
+} else {
+    String tipoUsuario = (String) session.getAttribute("tipoUsuario");
+    if (!"admin".equals(tipoUsuario)) { 
         request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
+    } 
+    }    // Usuario es admin, continuar con el código para admin
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -31,35 +35,32 @@
         <!--        Para exportación a excel-->
         <script src="js/exportarExcelLotes.js"></script>
 
+
         <style>
+            html {
+                zoom: 90%;
+                -moz-transform: scale(0.9);
+                -webkit-transform: scale(0.9);
+                transform: scale(0.9);
+            }
+
             .scrollable-tbody-v {
                 --bs-table-accent-bg: rgb(240, 14, 14, 0.70);
             }
-        </style>
-
-        <style>
             .scrollable-tbody-1m {
                 --bs-table-accent-bg: rgb(255, 192, 0, 0.70);
             }
-        </style>
-
-        <style>
             .scrollable-tbody-3m {
                 --bs-table-accent-bg: rgb(255, 255, 0, 0.70);
             }
-        </style>
-        <style>
             .scrollable-tbody-6m {
                 --bs-table-accent-bg: rgb(71, 211, 89, 0.70);
             }
-        </style>
-
-
-        <style>
             .scrollable-tbody-8m {
                 --bs-table-accent-bg: rgb(131, 204, 235, 0.70);
             }
         </style>
+
 
 
     </head>
@@ -77,10 +78,7 @@
                 <section class="vendimiento-section" style="width: 1400px;">
                     <!-- Content for Vendimiento de Productos Section -->
                     <!-- ... -->
-
                     <div class="text-center mx-auto">
-
-
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h2>Control de Lotes | Nombre de Farmacia: CEDI <strong></strong></h2>
 
@@ -93,10 +91,6 @@
                             </form>
 
                         </div>
-
-
-
-
                     </div>
 
                     <!--                    SE PUEDE UTILIZAR DESPUES-->
@@ -133,7 +127,7 @@
                 <div class="tab-pane fade show active" id="vencidos" role="tabpanel" aria-labelledby="vencidos-tab">
                     <!-- Tabla de Vencidos -->
                     <div class="table-responsive">
-                        <!-- Tu tabla de Vencidos va aquí -->
+                        <!--  tabla de Vencidos va aquí -->
                         <div class="table-wrapper-scroll-y my-custom-scrollbar">
                             <div>
                                 <h2 class="table-title"> </h2>
@@ -148,16 +142,18 @@
                                         <th scope="col" class="text-center">Código</th>
                                         <th scope="col" class="text-center">SAP</th>
                                         <th scope="col" class="text-center">Lote</th>
-                                        <th scope="col" class="text-center">Fecha Caducidad</th>
+                                        <th scope="col" class="text-wrap">Fecha Caducidad</th>
                                         <th scope="col" class="text-center">Descripción</th>
                                         <th scope="col" class="text-center">Cantidad</th>
-                                        <th scope="col" class="text-center">Precio Etiqueta</th>
+                                        <th scope="col" class="text-wrap">Precio Etiqueta</th>
                                         <th scope="col" class="text-center">Laboratorio</th>
                                         <th scope="col" class="text-center">Proveedor</th>
                                         <th scope="col" class="text-center">Observación</th>
                                         <th scope="col" class="text-center">Reg_SAN</th>
                                         <th scope="col" class="text-center">Devolutivo</th>
+                                        <th scope="col" class="text-wrap"">Fecha registro</th>
                                         <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->
+
                                     </tr>
                                 </thead>
 
@@ -166,37 +162,44 @@
         for (ArticulosPorLotes artVenc : articulosVencidos) { %>
 
                                     <tr>
-                                        <td class="text-center"><%= artVenc.getItemId()%></td>
-                                        <td class="text-center"><%= artVenc.getSap()%></td>
-                                        <td class="text-center"><%= artVenc.getLote()%></td>
-                                        <td class="text-center"><%= artVenc.getFechaCaducidad()%></td>
-                                        <td class="text-center"><%= artVenc.getDescripcion()%></td>
-                                        <td class="text-center"><%= artVenc.getCantidad()%></td>
-                                        <td class="text-center"><%= artVenc.getPrecio_etiquetado()%></td>
-                                        <td class="text-center"><%= artVenc.getLaboratorio()%></td>
-                                        <td class="text-center"><%= artVenc.getVendedor()%></td>
-                                        <td class="text-center"><%= artVenc.getObservacion()%></td>
-                                        <td class="text-center"><%= artVenc.getRegistro_sanitario()%></td>
-                                        <td class="text-center"><%= artVenc.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= artVenc.getItemId()%></td>
+                                        <td class="text-wrap"><%= artVenc.getSap()%></td>
+                                        <td class="text-wrap"><%= artVenc.getLote()%></td>
+                                        <td class="text-wrap"><%= artVenc.getFechaCaducidad()%></td>
+                                        <td class="text-wrap"><%= artVenc.getDescripcion()%></td>
+                                        <td class="text-wrap"><%= artVenc.getCantidad()%></td>
+                                        <td class="text-wrap"><%= artVenc.getPrecio_etiquetado()%></td>
+                                        <td class="text-wrap"><%= artVenc.getLaboratorio()%></td>
+                                        <td class="text-wrap"><%= artVenc.getVendedor()%></td>
+                                        <td class="text-wrap"><%= artVenc.getObservacion()%></td>
+                                        <td class="text-wrap"><%= artVenc.getRegistro_sanitario()%></td>
+                                        <td class="text-wrap"><%= artVenc.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= artVenc.getFechaRegistro()%></td>
                                         <td class="text-center acciones">
                                             <!-- Agrega un botón o enlace que redirija a la página de actualización -->
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <form id="miFormulario2" action="BuscarProductoServlet" method="GET">
-                                                    <input type="hidden" name="item_id" value="<%= artVenc.getItemId()%>">       
-                                                    <input type="hidden" name="lote" value="<%= artVenc.getLote()%>">
-                                                    <input type="hidden" name="nameLab" value="<%= artVenc.getLaboratorio()%>">
-                                                    <input type="hidden" name="nombreProv" value="<%= artVenc.getVendedor()%>">
-                                                    <button type="submit" class="btn mb-3 btn-primary">Actualizar Producto</button>
-                                                </form>
 
-                                                <form id="miFormulario2" action="EliminarProductoServlet" method="POST">
-                                                    <input type="hidden" name="itemId" value="<%= artVenc.getItemId()%>">
-                                                    <input type="hidden" name="lote" value="<%= artVenc.getLote()%>">
-                                                    <button type="submit" class="btn btn-danger">Eliminar Producto</button>
-                                                </form>
-                                            </div>
+                                            <form id="miFormulario2" action="BuscarProductoServlet" method="GET">
+                                                <input type="hidden" name="item_id" value="<%= artVenc.getItemId()%>">       
+                                                <input type="hidden" name="lote" value="<%= artVenc.getLote()%>">
+                                                <input type="hidden" name="nameLab" value="<%= artVenc.getLaboratorio()%>">
+                                                <input type="hidden" name="nombreProv" value="<%= artVenc.getVendedor()%>">
+                                                <input type="hidden" name="fechaCaducidad" value="<%= artVenc.getFechaCaducidad()%>">
+                                                <button type="submit" class="btn mb-3 btn-primary">Actualizar Producto</button>
+                                            </form>
+
+                                            <form id="miFormulario3m" action="EliminarProductoServlet" method="POST">
+                                                <input type="hidden" name="itemId" value="<%= artVenc.getItemId()%>">
+                                                <input type="hidden" name="lote" value="<%= artVenc.getLote()%>">
+                                                <input type="hidden" name="fechaCaducidad" value="<%= artVenc.getFechaCaducidad()%>">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirmarEliminacionVen()">Eliminar Producto</button>
+                                            </form>
+
+                                            <script>
+                                                function confirmarEliminacionVen() {
+                                                    return confirm('¿Estás seguro de que deseas eliminar este producto?');
+                                                }
+                                            </script>
                                         </td>
-
                                     </tr>   
 
                                     <% } %>
@@ -208,7 +211,7 @@
                 </div>
 
 
-                <div class="tab-pane fade" id="un_mes" role="tabpanel" aria-labelledby="un_mes-tab">
+                <div class="tab-pane fade " id="un_mes" role="tabpanel" aria-labelledby="un_mes-tab">
                     <!-- Tabla de Vencen dentro de 1 Mes -->
                     <div class="table-responsive">
                         <!-- Tu tabla de Vencen dentro de 1 Mes va aquí, acá lo que Galo Me ayudó-->
@@ -226,15 +229,16 @@
                                         <th scope="col" class="text-center">Código</th>
                                         <th scope="col" class="text-center">SAP</th>
                                         <th scope="col" class="text-center">Lote</th>
-                                        <th scope="col" class="text-center">Fecha Caducidad</th>
+                                        <th scope="col" class="text-wrap">Fecha Caducidad</th>
                                         <th scope="col" class="text-center">Descripción</th>
                                         <th scope="col" class="text-center">Cantidad</th>
-                                        <th scope="col" class="text-center">Precio Etiqueta</th>
+                                        <th scope="col" class="text-wrap">Precio Etiqueta</th>
                                         <th scope="col" class="text-center">Laboratorio</th>
                                         <th scope="col" class="text-center">Proveedor</th>
                                         <th scope="col" class="text-center">Observación</th>
                                         <th scope="col" class="text-center">Reg_SAN</th>
                                         <th scope="col" class="text-center">Devolutivo</th>
+                                        <th scope="col" class="text-wrap"">Fecha registro</th>
                                         <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->
 
                                     </tr>
@@ -250,18 +254,19 @@
                                     %>
 
                                     <tr>
-                                        <td class="text-center"><%= art1m.getItemId()%></td>
-                                        <td class="text-center"><%= art1m.getSap()%></td>
-                                        <td class="text-center"><%= art1m.getLote()%></td>
-                                        <td class="text-center"><%= art1m.getFechaCaducidad()%></td>
-                                        <td class="text-center"><%= art1m.getDescripcion()%></td>
-                                        <td class="text-center"><%= art1m.getCantidad()%></td>
-                                        <td class="text-center"><%= art1m.getPrecio_etiquetado()%></td>
-                                        <td class="text-center"><%= art1m.getLaboratorio()%></td>
-                                        <td class="text-center"><%= art1m.getVendedor()%></td>
-                                        <td class="text-center"><%= art1m.getObservacion()%></td>
-                                        <td class="text-center"><%= art1m.getRegistro_sanitario()%></td>
-                                        <td class="text-center"><%= art1m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art1m.getItemId()%></td>
+                                        <td class="text-wrap"><%= art1m.getSap()%></td>
+                                        <td class="text-wrap"><%= art1m.getLote()%></td>
+                                        <td class="text-wrap"><%= art1m.getFechaCaducidad()%></td>
+                                        <td class="text-wrap"><%= art1m.getDescripcion()%></td>
+                                        <td class="text-wrap"><%= art1m.getCantidad()%></td>
+                                        <td class="text-wrap"><%= art1m.getPrecio_etiquetado()%></td>
+                                        <td class="text-wrap"><%= art1m.getLaboratorio()%></td>
+                                        <td class="text-wrap"><%= art1m.getVendedor()%></td>
+                                        <td class="text-wrap"><%= art1m.getObservacion()%></td>
+                                        <td class="text-wrap"><%= art1m.getRegistro_sanitario()%></td>
+                                        <td class="text-wrap"><%= art1m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art1m.getFechaRegistro()%></td>
                                         <td class="text-center acciones">
                                             <!-- Agrega un botón o enlace que redirija a la página de actualización -->
                                             <form id="miFormulario2" action="BuscarProductoServlet" method="GET">
@@ -269,15 +274,23 @@
                                                 <input type="hidden" name="lote" value="<%= art1m.getLote()%>">
                                                 <input type="hidden" name="nameLab" value="<%= art1m.getLaboratorio()%>">
                                                 <input type="hidden" name="nombreProv" value="<%= art1m.getVendedor()%>">
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art1m.getFechaCaducidad()%>">
                                                 <div class="mb-4">
                                                     <button type="submit" class="btn btn-primary">Actualizar Producto</button>
                                                 </div>
                                             </form>
-                                            <form id="miFormulario2" action="EliminarProductoServlet" method="POST">
+                                            <form id="miFormulario3m" action="EliminarProductoServlet" method="POST">
                                                 <input type="hidden" name="itemId" value="<%= art1m.getItemId()%>">
                                                 <input type="hidden" name="lote" value="<%= art1m.getLote()%>">
-                                                <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art1m.getFechaCaducidad()%>">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirmarEliminacion1m()">Eliminar Producto</button>
                                             </form>
+
+                                            <script>
+                                                function confirmarEliminacion1m() {
+                                                    return confirm('¿Estás seguro de que deseas eliminar este producto?');
+                                                }
+                                            </script>
                                         </td>
                                     </tr>                           
 
@@ -305,16 +318,18 @@
                                         <th scope="col" class="text-center">Código</th>
                                         <th scope="col" class="text-center">SAP</th>
                                         <th scope="col" class="text-center">Lote</th>
-                                        <th scope="col" class="text-center">Fecha Caducidad</th>
+                                        <th scope="col" class="text-wrap">Fecha Caducidad</th>
                                         <th scope="col" class="text-center">Descripción</th>
                                         <th scope="col" class="text-center">Cantidad</th>
-                                        <th scope="col" class="text-center">Precio Etiqueta</th>
+                                        <th scope="col" class="text-wrap">Precio Etiqueta</th>
                                         <th scope="col" class="text-center">Laboratorio</th>
                                         <th scope="col" class="text-center">Proveedor</th>
                                         <th scope="col" class="text-center">Observación</th>
                                         <th scope="col" class="text-center">Reg_SAN</th>
                                         <th scope="col" class="text-center">Devolutivo</th>
-                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->                            
+                                        <th scope="col" class="text-wrap"">Fecha registro</th>
+                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->
+
                                     </tr>
                                 </thead>
 
@@ -328,37 +343,48 @@
                                     %>
 
                                     <tr>
-                                        <td class="text-center"><%= art3m.getItemId()%></td>
-                                        <td class="text-center"><%= art3m.getSap()%></td>
-                                        <td class="text-center"><%= art3m.getLote()%></td>
-                                        <td class="text-center"><%= art3m.getFechaCaducidad()%></td>
-                                        <td class="text-center"><%= art3m.getDescripcion()%></td>
-                                        <td class="text-center"><%= art3m.getCantidad()%></td>
-                                        <td class="text-center"><%= art3m.getPrecio_etiquetado()%></td>
-                                        <td class="text-center"><%= art3m.getLaboratorio()%></td>
-                                        <td class="text-center"><%= art3m.getVendedor()%></td>
-                                        <td class="text-center"><%= art3m.getObservacion()%></td>
-                                        <td class="text-center"><%= art3m.getRegistro_sanitario()%></td>
-                                        <td class="text-center"><%= art3m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art3m.getItemId()%></td>
+                                        <td class="text-wrap"><%= art3m.getSap()%></td>
+                                        <td class="text-wrap"><%= art3m.getLote()%></td>
+                                        <td class="text-wrap"><%= art3m.getFechaCaducidad()%></td>
+                                        <td class="text-wrap"><%= art3m.getDescripcion()%></td>
+                                        <td class="text-wrap"><%= art3m.getCantidad()%></td>
+                                        <td class="text-wrap"><%= art3m.getPrecio_etiquetado()%></td>
+                                        <td class="text-wrap"><%= art3m.getLaboratorio()%></td>
+                                        <td class="text-wrap"><%= art3m.getVendedor()%></td>
+                                        <td class="text-wrap"><%= art3m.getObservacion()%></td>
+                                        <td class="text-wrap"><%= art3m.getRegistro_sanitario()%></td>
+                                        <td class="text-wrap"><%= art3m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art3m.getFechaRegistro()%></td>
                                         <td class="text-center acciones">
                                             <!-- Agrega un botón o enlace que redirija a la página de actualización -->
                                             <form id="miFormulario2" action="BuscarProductoServlet" method="GET">
                                                 <input type="hidden" name="item_id" value="<%= art3m.getItemId()%>">
                                                 <input type="hidden" name="lote" value="<%= art3m.getLote()%>">
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art3m.getFechaCaducidad()%>">
                                                 <input type="hidden" name="nameLab" value="<%= art3m.getLaboratorio()%>">
                                                 <input type="hidden" name="nombreProv" value="<%= art3m.getVendedor()%>">
-
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art3m.getFechaCaducidad()%>">
 
                                                 <div class="mb-4">
                                                     <button type="submit" class="btn btn-primary">Actualizar Producto</button>
                                                 </div>
-
                                             </form>
-                                            <form id="miFormulario2" action="EliminarProductoServlet" method="POST">
+                                            <!--                                                parte buena verificada-->
+                                            <form id="miFormulario3m" action="EliminarProductoServlet" method="POST">
                                                 <input type="hidden" name="itemId" value="<%= art3m.getItemId()%>">
                                                 <input type="hidden" name="lote" value="<%= art3m.getLote()%>">
-                                                <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art3m.getFechaCaducidad()%>">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirmarEliminacion3m()">Eliminar Producto</button>
                                             </form>
+
+                                            <script>
+                                                function confirmarEliminacion3m() {
+                                                    return confirm('¿Estás seguro de que deseas eliminar este producto?');
+                                                }
+                                            </script>
+
+
                                         </td>
                                     </tr>                          
 
@@ -387,17 +413,18 @@
                                         <th scope="col" class="text-center">Código</th>
                                         <th scope="col" class="text-center">SAP</th>
                                         <th scope="col" class="text-center">Lote</th>
-                                        <th scope="col" class="text-center">Fecha Caducidad</th>
+                                        <th scope="col" class="text-wrap">Fecha Caducidad</th>
                                         <th scope="col" class="text-center">Descripción</th>
                                         <th scope="col" class="text-center">Cantidad</th>
-                                        <th scope="col" class="text-center">Precio Etiqueta</th>
+                                        <th scope="col" class="text-wrap">Precio Etiqueta</th>
                                         <th scope="col" class="text-center">Laboratorio</th>
                                         <th scope="col" class="text-center">Proveedor</th>
                                         <th scope="col" class="text-center">Observación</th>
                                         <th scope="col" class="text-center">Reg_SAN</th>
                                         <th scope="col" class="text-center">Devolutivo</th>
+                                        <th scope="col" class="text-wrap"">Fecha registro</th>
+                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->
 
-                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->                          
                                     </tr>
                                 </thead>
 
@@ -411,18 +438,19 @@
                                     %>
 
                                     <tr>
-                                        <td class="text-center"><%= art6m.getItemId()%></td>
-                                        <td class="text-center"><%= art6m.getSap()%></td>
-                                        <td class="text-center"><%= art6m.getLote()%></td>
-                                        <td class="text-center"><%= art6m.getFechaCaducidad()%></td>
-                                        <td class="text-center"><%= art6m.getDescripcion()%></td>
-                                        <td class="text-center"><%= art6m.getCantidad()%></td>
-                                        <td class="text-center"><%= art6m.getPrecio_etiquetado()%></td>
-                                        <td class="text-center"><%= art6m.getLaboratorio()%></td>
-                                        <td class="text-center"><%= art6m.getVendedor()%></td>
-                                        <td class="text-center"><%= art6m.getObservacion()%></td>
-                                        <td class="text-center"><%= art6m.getRegistro_sanitario()%></td>
-                                        <td class="text-center"><%= art6m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art6m.getItemId()%></td>
+                                        <td class="text-wrap"><%= art6m.getSap()%></td>
+                                        <td class="text-wrap"><%= art6m.getLote()%></td>
+                                        <td class="text-wrap"><%= art6m.getFechaCaducidad()%></td>
+                                        <td class="text-wrap"><%= art6m.getDescripcion()%></td>
+                                        <td class="text-wrap"><%= art6m.getCantidad()%></td>
+                                        <td class="text-wrap"><%= art6m.getPrecio_etiquetado()%></td>
+                                        <td class="text-wrap"><%= art6m.getLaboratorio()%></td>
+                                        <td class="text-wrap"><%= art6m.getVendedor()%></td>
+                                        <td class="text-wrap"><%= art6m.getObservacion()%></td>
+                                        <td class="text-wrap"><%= art6m.getRegistro_sanitario()%></td>
+                                        <td class="text-wrap"><%= art6m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art6m.getFechaRegistro()%></td>
                                         <td class="text-center acciones">
                                             <!-- Agrega un botón o enlace que redirija a la página de actualización -->
                                             <form id="miFormulario2" action="BuscarProductoServlet" method="GET">
@@ -430,15 +458,24 @@
                                                 <input type="hidden" name="lote" value="<%= art6m.getLote()%>">
                                                 <input type="hidden" name="nameLab" value="<%= art6m.getLaboratorio()%>">
                                                 <input type="hidden" name="nombreProv" value="<%= art6m.getVendedor()%>">
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art6m.getFechaCaducidad()%>">
                                                 <div class="mb-4">
                                                     <button type="submit" class="btn btn-primary">Actualizar Producto</button>
                                                 </div>
                                             </form>
-                                            <form id="miFormulario2" action="EliminarProductoServlet" method="POST">
+
+                                            <form id="miFormulario3m" action="EliminarProductoServlet" method="POST">
                                                 <input type="hidden" name="itemId" value="<%= art6m.getItemId()%>">
                                                 <input type="hidden" name="lote" value="<%= art6m.getLote()%>">
-                                                <button type="submit" class="btn btn-danger">Eliminar Producto</button>
+                                                <input type="hidden" name="fechaCaducidad" value="<%= art6m.getFechaCaducidad()%>">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirmarEliminacion6m()">Eliminar Producto</button>
                                             </form>
+
+                                            <script>
+                                                function confirmarEliminacion6m() {
+                                                    return confirm('¿Estás seguro de que deseas eliminar este producto?');
+                                                }
+                                            </script>
                                         </td>
                                     </tr>                          
 
@@ -467,16 +504,18 @@
                                         <th scope="col" class="text-center">Código</th>
                                         <th scope="col" class="text-center">SAP</th>
                                         <th scope="col" class="text-center">Lote</th>
-                                        <th scope="col" class="text-center">Fecha Caducidad</th>
+                                        <th scope="col" class="text-wrap">Fecha Caducidad</th>
                                         <th scope="col" class="text-center">Descripción</th>
                                         <th scope="col" class="text-center">Cantidad</th>
-                                        <th scope="col" class="text-center">Precio Etiqueta</th>
+                                        <th scope="col" class="text-wrap">Precio Etiqueta</th>
                                         <th scope="col" class="text-center">Laboratorio</th>
                                         <th scope="col" class="text-center">Proveedor</th>
                                         <th scope="col" class="text-center">Observación</th>
                                         <th scope="col" class="text-center">Reg_SAN</th>
                                         <th scope="col" class="text-center">Devolutivo</th>
-                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->                          
+                                        <th scope="col" class="text-wrap"">Fecha registro</th>
+                                        <th scope="col" class="text-center acciones">Acciones</th> <!-- Nueva columna para acciones -->
+
                                     </tr>
                                 </thead>
 
@@ -490,18 +529,19 @@
                                     %>
 
                                     <tr>
-                                        <td class="text-center"><%= art8m.getItemId()%></td>
-                                        <td class="text-center"><%= art8m.getSap()%></td>
-                                        <td class="text-center"><%= art8m.getLote()%></td>
-                                        <td class="text-center"><%= art8m.getFechaCaducidad()%></td>
-                                        <td class="text-center"><%= art8m.getDescripcion()%></td>
-                                        <td class="text-center"><%= art8m.getCantidad()%></td>
-                                        <td class="text-center"><%= art8m.getPrecio_etiquetado()%></td>
-                                        <td class="text-center"><%= art8m.getLaboratorio()%></td>
-                                        <td class="text-center"><%= art8m.getVendedor()%></td>
-                                        <td class="text-center"><%= art8m.getObservacion()%></td>
-                                        <td class="text-center"><%= art8m.getRegistro_sanitario()%></td>
-                                        <td class="text-center"><%= art8m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art8m.getItemId()%></td>
+                                        <td class="text-wrap"><%= art8m.getSap()%></td>
+                                        <td class="text-wrap"><%= art8m.getLote()%></td>
+                                        <td class="text-wrap"><%= art8m.getFechaCaducidad()%></td>
+                                        <td class="text-wrap"><%= art8m.getDescripcion()%></td>
+                                        <td class="text-wrap"><%= art8m.getCantidad()%></td>
+                                        <td class="text-wrap"><%= art8m.getPrecio_etiquetado()%></td>
+                                        <td class="text-wrap"><%= art8m.getLaboratorio()%></td>
+                                        <td class="text-wrap"><%= art8m.getVendedor()%></td>
+                                        <td class="text-wrap"><%= art8m.getObservacion()%></td>
+                                        <td class="text-wrap"><%= art8m.getRegistro_sanitario()%></td>
+                                        <td class="text-wrap"><%= art8m.getDevolutivo()%></td>
+                                        <td class="text-wrap"><%= art8m.getFechaRegistro()%></td>
                                         <td class="text-center acciones">
                                             <!-- Agrega un botón o enlace que redirija a la página de actualización -->
                                             <div>
@@ -512,24 +552,28 @@
                                                         <input type="hidden" name="lote" value="<%= art8m.getLote()%>">
                                                         <input type="hidden" name="nameLab" value="<%= art8m.getLaboratorio()%>">
                                                         <input type="hidden" name="nombreProv" value="<%= art8m.getVendedor()%>">
+                                                        <input type="hidden" name="fechaCaducidad" value="<%= art8m.getFechaCaducidad()%>">
                                                         <div class="mb-4">
                                                             <button type="submit" class="btn btn-primary mr-2">Actualizar Producto</button>
 
                                                         </div>
                                                     </form>
-                                                    <form id="miFormulario2" action="EliminarProductoServlet" method="POST">
+                                                    <form id="miFormulario3m" action="EliminarProductoServlet" method="POST">
                                                         <input type="hidden" name="itemId" value="<%= art8m.getItemId()%>">
                                                         <input type="hidden" name="lote" value="<%= art8m.getLote()%>">
-                                                        <button type="submit" class="btn btn-danger  mr-2">Eliminar Producto</button>
+                                                        <input type="hidden" name="fechaCaducidad" value="<%= art8m.getFechaCaducidad()%>">
+                                                        <button type="submit" class="btn btn-danger" onclick="return confirmarEliminacion8m()">Eliminar Producto</button>
                                                     </form>
 
-
+                                                    <script>
+                                                        function confirmarEliminacion8m() {
+                                                            return confirm('¿Estás seguro de que deseas eliminar este producto?');
+                                                        }
+                                                    </script>
                                                 </div>
-
                                             </div>
                                         </td>
                                     </tr>                          
-
                                     <% } %>
                                 </tbody>
                             </table>
